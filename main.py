@@ -1,8 +1,6 @@
 from turtle import *
 import random
 
-
-
 # generates a random color
 def generate_color():
     return f"#{random.randint(0, 0xFFFFFF):06x}"
@@ -22,31 +20,31 @@ def playing_area():
     t.end_fill()
 
 
-# Function 1: Movement using turtle heading (forward + setheading)
 def move_with_heading(t):
-    # Move the turtle continuously using forward movement and its current heading.
-    # The turtle should update its position each frame using forward().
-    # When the turtle hits a boundary:
-    #   - Use heading() to check its current direction.
-    #   - Calculate the reflection angle based on the wall it hits.
-    #   - Use setheading() to update the direction so it "bounces" off the wall.
-    # The result should be smooth motion where direction is controlled by angles.
-    pass
+    t.forward(5)
+    if t.xcor() > 250 or t.xcor() < -250:
+        t.setheading(180 - t.heading())
+        t.forward(10)
+    if t.ycor() > 250 or t.ycor() < -250:
+        t.setheading(-t.heading())
+        t.forward(10)
+
 
 
 # Function 2: Movement using delta x / delta y (coordinate-based movement)
 def move_with_deltas(t, deltax, deltay):
-    # Move the turtle by directly updating its x and y position using dx and dy values.
-    # Each update step:
-    #   - Add deltax to x-coordinate and deltay to y-coordinate.
-    # When the turtle hits a boundary:
-    #   - Reverse deltax if it hits a left/right wall.
-    #   - Reverse deltay if it hits a top/bottom wall.
-    # This creates a bounce effect using vector-style movement instead of angles.
-    # The turtle’s position should be updated using setx() and sety().
-    pass
+    newx = t.xcor() + deltax
+    newy = t.ycor() + deltay
 
-
+    if newx > 250 or newx< -250:
+        newx = t.xcor()
+        deltax *=-1
+    if newy > 250 or newy< -250:
+        newy = t.ycor()
+        deltay *=-1
+    
+    t.goto(newx,newy)
+    return deltax, deltay 
 screen = Screen()
 screen.bgcolor("black")
 screen.setup(520,520)
@@ -54,6 +52,21 @@ screen.title("The Bouncing Ball")
 
 playing_area()
 
+t = Turtle()
+t.color(generate_color())
+t.speed(0)
+t.shape("circle")
+t.setheading(random.randint(0,360))
+deltax = random.randint(-2,2)
+deltay = random.randint(-2,2)
+
+
+
+
+alive = True 
+
+while alive:
+    deltax,deltay = move_with_deltas(t,deltax,deltay)
 
 
 screen.exitonclick()
