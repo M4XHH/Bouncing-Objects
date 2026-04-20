@@ -69,11 +69,11 @@ def down():
     player.forward(10)
 def left():
     global player
-    player.setheading(180)
+    player.left(10)
     player.forward(10)
 def right():
     global player
-    player.left(5)
+    player.right(10)
     player.forward(10)
 
 screen = Screen()
@@ -82,10 +82,10 @@ screen.setup(520,520)
 screen.title("The Bouncing Ball")
 screen.listen()
 screen.onkey(create_player, "space")
-screen.onkey(up, "w")
-screen.onkey(left, "a")
-screen.onkey(down, "s")
-screen.onkey(right, "d")
+screen.onkeypress(up, "w")
+screen.onkeypress(left, "a")
+screen.onkeypress(down, "s")
+screen.onkeypress(right, "d")
 
 playing_area()
 
